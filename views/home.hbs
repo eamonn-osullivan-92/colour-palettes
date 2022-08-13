@@ -1,0 +1,21 @@
+<div class="hero-container">
+    <div class="hero-background">
+            {{#each colors}}
+            <div class="hero-color" style="background-color:{{this}}"></div>
+            {{/each}}
+        </div>
+        {{!-- absolutely positioned --}}
+        <div class="hero-content">
+            <h1 class="hero-title">Create your next color palette with ease</h1>
+
+            <div class="button-container">
+                <a href="/generate">
+                <button class="generate-btn btn">Generate</button>
+                </a>
+                <a href="/palettes">
+                <button class="palettes-btn btn">Palettes</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

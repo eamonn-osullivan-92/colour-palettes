@@ -1,6 +1,7 @@
 const express = require('express')
 const hbs = require('express-handlebars')
 const fs = require('fs')
+const router = require('./routes')
 const path = require('path')
 
 const server = express()
@@ -15,8 +16,21 @@ server.set('view engine', 'hbs')
 
 //Routes
 
+server.use('/', router)
+
 server.get('/', (req, res) => {
-	res.send('hello world')
+	fs.readFile('./data.json', 'utf-8', (err, data) => {
+		if (err) return res.status(500).send(err.message)
+		let parsed = JSON.parse(data)
+		let heroPalette = parsed.palettes[randomNum(parsed.palettes)]
+		res.render('home', heroPalette)
+	})
 })
+
+//util
+
+function randomNum(array) {
+	return Math.floor(Math.random() * array.length)
+}
 
 module.exports = server
