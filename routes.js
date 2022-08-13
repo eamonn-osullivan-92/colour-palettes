@@ -11,11 +11,10 @@ router.get('/palettes', (req, res) => {
 	})
 })
 
-// ISSUE HERE - NOT SURE IF RES IS HAPPENING before await
-
-// ADD to colors to JSON FILE WITH writefile?
 router.get('/generate', async (req, res) => {
 	let palette = await fetchColors()
+
+	// palette is not awaiting
 	res.render('generate', palette)
 })
 
@@ -26,7 +25,7 @@ function randomNum(array) {
 }
 
 function componentToHex(c) {
-	let hex = c.toString(16)
+	let hex = c.toString(16).toUpperCase()
 	return hex.length == 1 ? '0' + hex : hex
 }
 
@@ -45,7 +44,7 @@ function rgbArraytoHexArray(array) {
 }
 
 async function fetchColors() {
-	fetch('http://colormind.io/api/', {
+	let colors = await fetch('http://colormind.io/api/', {
 		method: 'POST',
 		body: JSON.stringify({ model: 'default' }),
 	})
@@ -58,6 +57,7 @@ async function fetchColors() {
 			console.log({ colors })
 			return { colors }
 		})
+	return colors
 }
 
 module.exports = router
