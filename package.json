@@ -1,0 +1,27 @@
+{
+  "name": "colour-palettes",
+  "version": "1.0.0",
+  "description": "personal colour palette generator and library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eamonn-osullivan-92/colour-palettes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eamonn-osullivan-92/colour-palettes/issues"
+  },
+  "homepage": "https://github.com/eamonn-osullivan-92/colour-palettes#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "nodemon": "^2.0.19"
+  }
+}
