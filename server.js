@@ -3,6 +3,7 @@ const hbs = require('express-handlebars')
 const fs = require('fs')
 const router = require('./routes')
 const path = require('path')
+const utils = require('./utils')
 
 const server = express()
 
@@ -22,15 +23,9 @@ server.get('/', (req, res) => {
 	fs.readFile('./data.json', 'utf-8', (err, data) => {
 		if (err) return res.status(500).send(err.message)
 		let parsed = JSON.parse(data)
-		let heroPalette = parsed.palettes[randomNum(parsed.palettes)]
+		let heroPalette = parsed.palettes[utils.randomNum(parsed.palettes)]
 		res.render('home', heroPalette)
 	})
 })
-
-//util
-
-function randomNum(array) {
-	return Math.floor(Math.random() * array.length)
-}
 
 module.exports = server
