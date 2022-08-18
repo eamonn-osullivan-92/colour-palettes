@@ -23,6 +23,14 @@ function rgbArraytoHexArray(array) {
 	return [colorOne, colorTwo, colorThree, colorFour, colorFive]
 }
 
+// loops through array and parses color string into an array.
+function parseColors(array) {
+	for (let object of array) {
+		object.colors = JSON.parse(object.colors)
+	}
+	return array
+}
+
 async function fetchRandomPalette() {
 	let colors = await fetch('http://colormind.io/api/', {
 		method: 'POST',
@@ -47,4 +55,5 @@ async function fetchTargetedPalette(color1, color2) {
 module.exports = {
 	fetchRandomPalette,
 	randomNum,
+	parseColors,
 }

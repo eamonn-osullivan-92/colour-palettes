@@ -1,22 +1,49 @@
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
+const db = require('./db/index')
 
 const utils = require('./utils')
 
+let currentPalette
+
 router.get('/palettes', (req, res) => {
-	fs.readFile('./data.json', 'utf-8', (err, data) => {
-		if (err) return res.status(500).send(err.message)
-		let parsed = JSON.parse(data)
-		res.render('palettes', parsed)
-	})
+	db.getPalettes()
+		.then((palettes) => {
+			let parsedColors = utils.parseColors(palettes)
+			res.render('palettes', { palettes: parsedColors })
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send('Not good. ' + err.message)
+		})
 })
 
 router.get('/generate', async (req, res) => {
-	let palette = await utils.fetchRandomPalette()
+	utils
+		.fetchRandomPalette()
+		.then((palette) => {
+			currentPalette = palette
+			res.render('generate', palette)
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send('Not good. ' + err.message)
+		})
+})
 
-	// palette is not awaiting
-	res.render('generate', palette)
+// add color to palettes
+router.post('/generate', (req, res) => {
+	let colors = req.body
+	let array = colors.colors.split(',')
+	db.addPalette(array)
+		.then(() => {
+			res.redirect('/generate')
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send('Not good. ' + err.message)
+		})
 })
 
 module.exports = router

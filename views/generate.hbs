@@ -1,3 +1,4 @@
+
 <div class="generate-container">
     <div class="generate-background">
             {{#each colors}}
@@ -9,7 +10,14 @@
             <button class="generate-btn btn">
             Generate</button>
             </a>
-            <button class="save btn">Save</button>
+            <form method="POST" action="/generate">
+              <input type="hidden" name="colors" value={{colors}}>
+                <div></div>
+                <button class="save btn">Save</button>
+            </form>
+
+
     </div>
 </div>
+
 
