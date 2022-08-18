@@ -23,7 +23,7 @@ function rgbArraytoHexArray(array) {
 	return [colorOne, colorTwo, colorThree, colorFour, colorFive]
 }
 
-// loops through array and parses color string into an array.
+// loops through array and parses color string into an
 function parseColors(array) {
 	for (let object of array) {
 		object.colors = JSON.parse(object.colors)
@@ -31,8 +31,9 @@ function parseColors(array) {
 	return array
 }
 
-async function fetchRandomPalette() {
-	let colors = await fetch('http://colormind.io/api/', {
+//non async version
+function fetchRandomPalette() {
+	let colors = fetch('http://colormind.io/api/', {
 		method: 'POST',
 		body: JSON.stringify({ model: 'ui' }),
 	})
@@ -57,3 +58,32 @@ module.exports = {
 	randomNum,
 	parseColors,
 }
+
+//async version
+// async function fetchRandomPalette() {
+// 	let colors = await fetch('http://colormind.io/api/', {
+// 		method: 'POST',
+// 		body: JSON.stringify({ model: 'ui' }),
+// 	})
+// 		.then((response) => {
+// 			return response.json()
+// 		})
+// 		.then((response) => {
+// 			let colors = rgbArraytoHexArray(response.result)
+// 			return { colors }
+// 		})
+// 	return colors
+// }
+
+// async version
+// router.get('/generate', async (req, res) => {
+// 	utils
+// 		.fetchRandomPalette()
+// 		.then((palette) => {
+// 			res.render('generate', palette)
+// 		})
+// 		.catch((err) => {
+// 			console.log(err)
+// 			res.send('Not good. ' + err.message)
+// 		})
+// })

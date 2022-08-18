@@ -1,11 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
 const db = require('./db/index')
-
 const utils = require('./utils')
-
-let currentPalette
+const fetch = require('node-fetch')
 
 router.get('/palettes', (req, res) => {
 	db.getPalettes()
@@ -19,11 +16,11 @@ router.get('/palettes', (req, res) => {
 		})
 })
 
-router.get('/generate', async (req, res) => {
+// non async version
+router.get('/generate', (req, res) => {
 	utils
 		.fetchRandomPalette()
 		.then((palette) => {
-			currentPalette = palette
 			res.render('generate', palette)
 		})
 		.catch((err) => {
@@ -45,5 +42,10 @@ router.post('/generate', (req, res) => {
 			res.send('Not good. ' + err.message)
 		})
 })
+
+// TODO
+// delete
+// update
+// built in color picker (react, bootstrap, other library or module.)
 
 module.exports = router
