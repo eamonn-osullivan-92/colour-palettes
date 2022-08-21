@@ -29,8 +29,23 @@ router.get('/generate', (req, res) => {
 		})
 })
 
-// add color to palettes
+// get targeted palette
 router.post('/generate', (req, res) => {
+	let { colorOne, colorTwo } = req.body
+
+	utils
+		.fetchTargetedPalette(colorOne, colorTwo)
+		.then((palette) => {
+			res.render('generate', palette)
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send('Not good. ' + err.message)
+		})
+})
+
+// add color to palettes
+router.post('/generate/save', (req, res) => {
 	let colors = req.body
 	let array = colors.colors.split(',')
 	db.addPalette(array)

@@ -25,7 +25,6 @@ server.get('/', (req, res) => {
 		.then((palettes) => {
 			let parsedColors = utils.parseColors(palettes)
 			let heroPalette = parsedColors[utils.randomNum(parsedColors)]
-			console.log(heroPalette)
 			res.render('home', heroPalette)
 		})
 		.catch((err) => {

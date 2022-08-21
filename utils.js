@@ -23,6 +23,17 @@ function rgbArraytoHexArray(array) {
 	return [colorOne, colorTwo, colorThree, colorFour, colorFive]
 }
 
+function hexToRgb(hex) {
+	return hex
+		.replace(
+			/^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+			(m, r, g, b) => '#' + r + r + g + g + b + b
+		)
+		.substring(1)
+		.match(/.{2}/g)
+		.map((x) => parseInt(x, 16))
+}
+
 // loops through array and parses color string into an
 function parseColors(array) {
 	for (let object of array) {
@@ -49,12 +60,32 @@ function fetchRandomPalette() {
 
 // user selects a start and end color and colormind will fill the gaps with like colors. i.e. user supplies color 1 and 5, colormind provides color 2, 3, 4
 
-async function fetchTargetedPalette(color1, color2) {
+function fetchTargetedPalette(color1, color2) {
+	//convert hex to rgb array
+	let colorOne = hexToRgb(color1)
+	let colorTwo = hexToRgb(color2)
+
 	// takes in two colours
+	let colors = fetch('http://colormind.io/api/', {
+		method: 'POST',
+		body: JSON.stringify({
+			input: [colorOne, 'N', 'N', 'N', colorTwo],
+			model: 'ui',
+		}),
+	})
+		.then((response) => {
+			return response.json()
+		})
+		.then((response) => {
+			let colors = rgbArraytoHexArray(response.result)
+			return { colors }
+		})
+	return colors
 }
 
 module.exports = {
 	fetchRandomPalette,
+	fetchTargetedPalette,
 	randomNum,
 	parseColors,
 }
