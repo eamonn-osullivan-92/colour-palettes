@@ -4,6 +4,7 @@ const fs = require('fs')
 const router = require('./routes')
 const path = require('path')
 const utils = require('./utils')
+const db = require('./db/index')
 
 const server = express()
 
@@ -20,12 +21,16 @@ server.set('view engine', 'hbs')
 server.use('/', router)
 
 server.get('/', (req, res) => {
-	fs.readFile('./data.json', 'utf-8', (err, data) => {
-		if (err) return res.status(500).send(err.message)
-		let parsed = JSON.parse(data)
-		let heroPalette = parsed.palettes[utils.randomNum(parsed.palettes)]
-		res.render('home', heroPalette)
-	})
+	db.getPalettes()
+		.then((palettes) => {
+			let parsedColors = utils.parseColors(palettes)
+			let heroPalette = parsedColors[utils.randomNum(parsedColors)]
+			res.render('home', heroPalette)
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send('No good my friend.' + err.message)
+		})
 })
 
 module.exports = server

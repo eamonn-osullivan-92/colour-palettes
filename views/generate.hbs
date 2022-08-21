@@ -1,15 +1,54 @@
+
 <div class="generate-container">
     <div class="generate-background">
             {{#each colors}}
                 <div class="generate-color" style="background-color:{{this}}">{{this}}</div>
             {{/each}}
-        </div>  
-        <div class="generate-button-container">
-            <a href="/generate">
-            <button class="generate-btn btn">
-            Generate</button>
-            </a>
-            <button class="save btn">Save</button>
+    </div>
+    <div class="ui-panel">
+        <div class="random-generate-container">
+            <h2 class="random-title">Random Color Picker</h2>
+            <p>Generate a random color palette</p>
+            <div class="generate-button-container">
+                <a href="/generate">
+                    <button class="btn-small">
+                Generate</button>
+                </a>
+                <form method="POST" action="/generate/save">
+                    <input type="hidden" name="colors" value={{colors}}>
+                    <button class="btn-small">Save</button>
+                </form>
+            </div>
+        </div>
+        <div class="target-generate-container">
+            <h2 class="targeted-title">Targeted Color Picker</h2>
+            <p>Select a start and end color and let the generator fill the gaps</p>
+                <form action="/generate" method="POST">
+                    <label for="colorOne">First Color:</label>
+                    <input type="color" name="colorOne" id="colorOne" class="color-picker" value={{colors.[0]}}>
+
+                    <label for="colorOne">Last Color:</label>
+                    <input type="color" name="colorTwo" id="colorTwo" class="color-picker" value={{colors.[4]}}>
+                    <button class="btn-small">Generate</button>
+                </form>
+        </div>
     </div>
 </div>
+
+{{!-- targeted color picker --}}
+{{!-- <div class="target-generate-container">
+    <h2>Targeted Color Picker</h2>
+    <p>Select a start and end color and let the generator fill the gaps</p>
+    <form action="/generate" method="POST">
+        <label for="colorOne">First Color:</label>
+        <input type="color" name="colorOne" id="colorOne" class="color-picker" value={{colors.[0]}}>
+
+        <label for="colorOne">Last Color:</label>
+        <input type="color" name="colorTwo" id="colorTwo" class="color-picker" value={{colors.[4]}}>
+         <button class="generate-btn btn">Generate</button>
+    </form>
+</div> --}}
+
+
+
 
